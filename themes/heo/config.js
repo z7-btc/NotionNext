@@ -17,11 +17,11 @@ const CONFIG = {
   HEO_HERO_BODY_REVERSE: false,
 
   // 英雄区(首页顶部大卡)
-  HEO_HERO_TITLE_1: '分享交易',
+  HEO_HERO_TITLE_1: '分享交易投资',
   HEO_HERO_TITLE_2: '与思维认知',
   HEO_HERO_TITLE_3: '--TradingLife--',
   HEO_HERO_TITLE_4: '修行',
-  HEO_HERO_TITLE_5: '--交易就是一场修行--',
+  HEO_HERO_TITLE_5: '交易就是一场修行',
   HEO_HERO_TITLE_LINK: '',
 
   // 英雄区显示三个置顶分类
