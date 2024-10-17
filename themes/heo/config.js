@@ -5,7 +5,7 @@ const CONFIG = {
 
   // 首页顶部通知条滚动内容，如不需要可以留空 []
   HEO_NOTICE_BAR: [
-    { title: '欢迎来到DonMark交易社区', url: '' },
+    { title: '欢迎来到DonMark交易工作室', url: '' },
     { title: '交易就是一场修行', url: '' },
     { title: '保持耐心才能赢得胜利', url: '' },
     { title: '--- 个人交易员Don Mark ---', url: '' }
