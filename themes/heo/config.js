@@ -51,7 +51,7 @@ const CONFIG = {
   HEO_INFO_CARD_URL1: '/about',
   HEO_INFO_CARD_ICON1: 'fas fa-user',
   HEO_INFO_CARD_URL2: '',
-  HEO_INFO_CARD_ICON2: 'fa-brands fa-youtube',
+  HEO_INFO_CARD_ICON2: 'fas fa-youtube',
   HEO_INFO_CARD_URL3: 'https://www.youtube.com/@Don_Mark909',
   HEO_INFO_CARD_TEXT3: '',
 
