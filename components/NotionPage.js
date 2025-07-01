@@ -114,7 +114,8 @@ const NotionPage = ({ post, className }) => {
           Equation,
           Modal,
           Pdf,
-          Tweet
+          Tweet,
+          Video
         }}
       />
 
@@ -278,5 +279,10 @@ const Modal = dynamic(
 const Tweet = ({ id }) => {
   return <TweetEmbed tweetId={id} />
 }
+
+// 自定义视频组件
+const Video = dynamic(() => import('@/components/Video').then(m => m.Video), {
+  ssr: false
+})
 
 export default NotionPage

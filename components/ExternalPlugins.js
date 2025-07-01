@@ -154,6 +154,7 @@ const ExternalPlugin = props => {
       <AosAnimation />
       {ANALYTICS_51LA_ID && ANALYTICS_51LA_CK && <LA51 />}
       {COZE_BOT_ID && <Coze />}
+      <FileDownloadHandler />
 
       {ANALYTICS_51LA_ID && ANALYTICS_51LA_CK && (
         <>
@@ -440,6 +441,10 @@ const LA51 = dynamic(() => import('@/components/LA51'), {
   ssr: false
 })
 const TianliGPT = dynamic(() => import('@/components/TianliGPT'), {
+  ssr: false
+})
+
+const FileDownloadHandler = dynamic(() => import('@/components/FileDownloadHandler'), {
   ssr: false
 })
 
