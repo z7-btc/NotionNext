@@ -1,5 +1,11 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "headers": []
+  "headers": [],
+  "crons": [
+    {
+      "path": "/api/cron/clear-cache",
+      "schedule": "*/10 * * * *"
+    }
+  ]
 }
