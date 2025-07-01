@@ -79,6 +79,13 @@ function getTopPosts({ latestPosts, allNavPages }) {
       topPosts.push(post)
     }
   }
+
+  // 如果没有找到推荐标签的文章，则返回最新文章
+  if (topPosts.length === 0 && latestPosts && latestPosts.length > 0) {
+    // 返回最新文章，最多count篇
+    return latestPosts.slice(0, count)
+  }
+
   return topPosts
 }
 

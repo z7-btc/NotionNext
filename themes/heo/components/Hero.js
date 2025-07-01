@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useImperativeHandle, useRef, useState } from 'react'
 import CONFIG from '../config'
+import RandomPostsWrapper from './RandomPostsWrapper'
 
 /**
  * 顶部英雄区
@@ -226,7 +227,8 @@ function TopGroup(props) {
   }
 
   // 获取置顶推荐文章
-  const topPosts = getTopPosts({ latestPosts, allNavPages })
+  const topPostsResult = getTopPosts({ latestPosts, allNavPages })
+  const { posts: topPosts, hasRecommendTag } = topPostsResult
 
   return (
     <div
@@ -237,27 +239,33 @@ function TopGroup(props) {
       <div
         id='top-group'
         className='w-full flex space-x-3 xl:space-x-0 xl:grid xl:grid-cols-3 xl:gap-3 xl:h-[342px]'>
-        {topPosts?.map((p, index) => {
-          return (
-            <Link href={`${siteConfig('SUB_PATH', '')}/${p?.slug}`} key={index}>
-              <div className='cursor-pointer h-[164px] group relative flex flex-col w-52 xl:w-full overflow-hidden shadow bg-white dark:bg-black dark:text-white rounded-xl'>
-                <LazyImage
-                  priority={index === 0}
-                  className='h-24 object-cover'
-                  alt={p?.title}
-                  src={p?.pageCoverThumbnail || siteInfo?.pageCover}
-                />
-                <div className='group-hover:text-indigo-600 dark:group-hover:text-yellow-600 line-clamp-2 overflow-hidden m-2 font-semibold'>
-                  {p?.title}
+        {hasRecommendTag ? (
+          // 有推荐标签的文章，直接显示
+          topPosts?.map((p, index) => {
+            return (
+              <Link href={`${siteConfig('SUB_PATH', '')}/${p?.slug}`} key={index}>
+                <div className='cursor-pointer h-[164px] group relative flex flex-col w-52 xl:w-full overflow-hidden shadow bg-white dark:bg-black dark:text-white rounded-xl'>
+                  <LazyImage
+                    priority={index === 0}
+                    className='h-24 object-cover'
+                    alt={p?.title}
+                    src={p?.pageCoverThumbnail || siteInfo?.pageCover}
+                  />
+                  <div className='group-hover:text-indigo-600 dark:group-hover:text-yellow-600 line-clamp-2 overflow-hidden m-2 font-semibold'>
+                    {p?.title}
+                  </div>
+                  {/* hover 悬浮的 ‘荐’ 字 */}
+                  <div className='opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 duration-200 transition-all absolute -top-2 -left-2 bg-indigo-600 dark:bg-yellow-600  text-white rounded-xl overflow-hidden pr-2 pb-2 pl-4 pt-4 text-xs'>
+                    {locale.COMMON.RECOMMEND_BADGES}
+                  </div>
                 </div>
-                {/* hover 悬浮的 ‘荐’ 字 */}
-                <div className='opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 duration-200 transition-all absolute -top-2 -left-2 bg-indigo-600 dark:bg-yellow-600  text-white rounded-xl overflow-hidden pr-2 pb-2 pl-4 pt-4 text-xs'>
-                  {locale.COMMON.RECOMMEND_BADGES}
-                </div>
-              </div>
-            </Link>
-          )
-        })}
+              </Link>
+            )
+          })
+        ) : (
+          // 没有推荐标签的文章，使用随机组件
+          <RandomPostsWrapper posts={topPosts} siteInfo={siteInfo} maxCount={6} />
+        )}
       </div>
       {/* 一个大的跳转文章卡片 */}
       <TodayCard cRef={todayCardRef} siteInfo={siteInfo} />
@@ -274,7 +282,7 @@ function getTopPosts({ latestPosts, allNavPages }) {
     !siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG) ||
     siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG) === ''
   ) {
-    return latestPosts
+    return { posts: latestPosts, hasRecommendTag: false }
   }
 
   // 显示包含‘推荐’标签的文章
@@ -309,7 +317,13 @@ function getTopPosts({ latestPosts, allNavPages }) {
       topPosts.push(post)
     }
   }
-  return topPosts
+
+  // 如果没有找到推荐标签的文章，则返回最新文章用于随机显示
+  if (topPosts.length === 0 && latestPosts && latestPosts.length > 0) {
+    return { posts: latestPosts, hasRecommendTag: false }
+  }
+
+  return { posts: topPosts, hasRecommendTag: true }
 }
 
 /**
